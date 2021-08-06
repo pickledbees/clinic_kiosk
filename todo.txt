@@ -1,0 +1,15 @@
+keep everything in mem so far
+
+entities should be derived from getter functions, with methods to access them
+
+- test with session
+- complete submit data redirect
+- create Q page with data from query string (has button for checkout)
+	- connects to server by socket
+	- if Q number from socket is own Q number, alert
+
+- admin page with login (venue Id and password)
+- redirect to admin page on successful challenge with session
+- admin page should get patients and their q number, each with admit button
+- when admit is pressed, patient disappears from page and sends a signal to server
+- server will send out signal to whatever system is also in place
