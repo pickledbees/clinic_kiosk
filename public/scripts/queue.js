@@ -8,11 +8,12 @@ const pageData = {
 
 $("#queue_number").text(pageData.number);
 
+//connect to socket to receive calling notifications
 const socket = io();
 socket.on("callNumber", (data) => {
   console.log(data);
   if (data.number == pageData.number && data.venueId === pageData.venueId) {
-    console.log("you're up");
+    console.log("you're up"); //TODO: show proper alert
   }
 });
 
@@ -24,6 +25,7 @@ function checkOut() {
   callSafeEntry("checkout");
 }
 
+//TODO: show checkin / checkout success/failure
 function callSafeEntry(action) {
   $.ajax({
     url: "/safeEntry",
@@ -35,7 +37,7 @@ function callSafeEntry(action) {
       mobileno: pageData.mobileno,
     },
     type: "POST",
-    success: () => console.log("yay"),
-    error: () => console.log("ohno"),
+    success: () => console.log(action, "success"),
+    error: () => console.log(action, "failed"),
   });
 }

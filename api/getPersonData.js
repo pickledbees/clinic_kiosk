@@ -58,7 +58,7 @@ async function getToken(authCode) {
       .send(params)
       .promise();
   } catch (e) {
-    throw new Error("failed to fetch token");
+    throw new Error("failed to fetch token from MyInfo token API");
   }
 
   if (response.statusCode === statusCode.OK) {
@@ -69,6 +69,7 @@ async function getToken(authCode) {
 }
 
 async function callPersonApi(token) {
+  //verify JWS
   let decoded;
   try {
     decoded = security.verifyJWS(token, PUBLIC_CERT);
@@ -77,10 +78,10 @@ async function callPersonApi(token) {
   }
 
   if (!decoded) throw new Error("invalid token");
-
   let sub = decoded.sub;
   if (!sub) throw new Error("sub not found");
 
+  //call person API to get person data
   let response;
   try {
     response = await createPersonRequest(sub, token).promise();
@@ -90,6 +91,7 @@ async function callPersonApi(token) {
 
   let encryptedPersonData = response.text;
 
+  //decrypt the JWE returned from the response
   let personDataJWS;
   try {
     personDataJWS = await security.decryptJWE(encryptedPersonData, PRIVATE_KEY);
@@ -97,6 +99,7 @@ async function callPersonApi(token) {
     throw new Error("failed to decrypt person data");
   }
 
+  //verify and decode the JWS
   let personData;
   try {
     personData = await security.verifyJWS(personDataJWS, PUBLIC_CERT);

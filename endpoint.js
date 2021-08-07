@@ -13,12 +13,12 @@ function serveForm(req, res) {
   }
 }
 
-function serveQPage(req, res) {
-  res.render("queue");
-}
-
 function callbackHandler(req, res) {
   res.render("form");
+}
+
+function serveQPage(req, res) {
+  res.render("queue");
 }
 
 function getMyInfoEnvHandler(req, res) {
@@ -30,24 +30,27 @@ function getMyInfoEnvHandler(req, res) {
   });
 }
 
+//TODO: formalise validation
 async function getPersonDataHandler(req, res) {
-  //extract params from body
   const { authCode } = req.body;
 
-  //verify body
   if (!authCode) {
     return sendError(res, statusCode.BAD_REQUEST, "missing authorization code");
   }
 
-  //call api
   try {
-    let data = await getPersonData(authCode);
-    res.status(statusCode.OK).jsonp(data);
+    let personData = await getPersonData(authCode);
+    res.status(statusCode.OK).jsonp(personData);
   } catch (e) {
-    return sendError(res, statusCode.NOT_FOUND, "person data not found: " + e);
+    return sendError(
+      res,
+      statusCode.NOT_FOUND,
+      `could not get person data, ${e}`
+    );
   }
 }
 
+//TODO: formalise validation
 let allowedActions = new Set(["checkin", "checkout"]);
 async function callSafeEntryHandler(req, res) {
   //extract params from body
@@ -84,30 +87,27 @@ async function callSafeEntryHandler(req, res) {
   }
 }
 
-//TODO: complete
+//TODO: formalise validation
 async function submitDataHandler(req, res) {
-  //verify this came from a valid session
   const { venueId, ...personData } = req.body;
   if (!venueId) {
-    //some error
     sendError(
       res,
       statusCode.BAD_REQUEST,
-      "form submission from unknown venue"
+      "form submission must include venueId"
     );
     return;
   }
 
-  //get url from db
+  //send person data to clinic and get the Q number
   let number;
   try {
-    //submit and get q number
     number = await sendDataToClinic(personData, venueId);
   } catch (e) {
     return sendError(
       res,
       statusCode.INTERNAL_SERVER_ERROR,
-      "failed to submit data"
+      "failed to submit person data"
     );
   }
   const { nric, mobileno } = personData;
@@ -117,10 +117,12 @@ async function submitDataHandler(req, res) {
     .jsonp({ redirect: "/queue", nric, mobileno, number, venueId });
 }
 
+//TODO: formalise validation
 //for clinic queue system to call
 async function callNumberHandler(req, res) {
   const { number, venueId, secret } = req.body;
 
+  //get clinic secret from DB to verify with secret submitted
   let clinicSecret;
   try {
     const clinic = await getClinicDataFromDB(venueId);
@@ -133,6 +135,7 @@ async function callNumberHandler(req, res) {
     );
   }
 
+  //validate secret
   if (secret !== clinicSecret) {
     return sendError(
       res,
@@ -141,10 +144,13 @@ async function callNumberHandler(req, res) {
     );
   }
 
+  //verify request
   if (number === undefined || !venueId) {
     return sendError(res, statusCode.BAD_REQUEST, "invalid number or venueId");
   }
 
+  //notify subscribed clients
+  //TODO: optimize this so it only broadcasts to sockets of appropriate venue
   const data = { number, venueId };
   req.io.emit("callNumber", data);
   res.status(statusCode.OK).send();

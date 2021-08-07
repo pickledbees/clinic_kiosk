@@ -61,19 +61,29 @@ function getMyInfoPersonData(authCode) {
     url: "/person",
     data: { authCode },
     type: "POST",
-    success: (data, status, xhr) => {
-      console.log(data);
+    success: (data) => {
       fillForm(data);
     },
     error: errorCallback,
   });
 }
 
+/**
+ * Fills the form based on raw SingPass MyInfo Person API response body
+ * form follows a standard person schema
+ * @param personData
+ */
 function fillForm(personData) {
   $("#nric").val(personData.uinfin.value);
   $("#mobileno").val(personData.mobileno.nbr.value);
 }
 
+/**
+ * Submit form data, enforces that mobile number and NRIC fields be filled
+ * data sent includes the venueId on top of person schema
+ * on success, performs redirect to queue page with necessary data in query params
+ */
+//TODO: perform validation, set loader, create failure to fetch alert
 function submit() {
   let formData = {};
   $("#form")
@@ -83,7 +93,7 @@ function submit() {
     url: "/submit",
     data: { ...formData, venueId: myInfo.venueId },
     type: "POST",
-    success: (data, status, xhr) => {
+    success: (data) => {
       const { redirect, nric, mobileno, number, venueId } = data;
       window.location =
         redirect +

@@ -1,3 +1,7 @@
+/**
+ * Represents a model of the current patients still awaiting their turn
+ * broadcasting to subscribed sockets changes to the model
+ */
 class PatientsModel {
   constructor(io) {
     this._nricToPatient = {};

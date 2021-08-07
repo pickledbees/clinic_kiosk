@@ -7,6 +7,7 @@ process.env.PRIVATE_KEY = fs.readFileSync(process.env.PRIVATE_KEY_PATH, "utf8");
 //util imports
 const path = require("path");
 
+//TODO: maybe convert to https
 //server imports
 const express = require("express");
 const app = express();
