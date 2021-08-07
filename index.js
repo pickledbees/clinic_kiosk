@@ -18,13 +18,6 @@ const io = new Server(server);
 //middleware and routing imports
 const router = require("./router");
 const bodyParser = require("body-parser");
-const session = require("express-session");
-const MemoryStore = require("memorystore")(session);
-
-//setup session memory store
-const CHECK_PERIOD = 86400000;
-const SESSION_SECRET = "session secret";
-const memoryStore = new MemoryStore({ checkPeriod: CHECK_PERIOD });
 
 //setup view engine
 app.set("views", path.join(__dirname, "public", "views"));
@@ -33,14 +26,6 @@ app.set("view engine", "ejs");
 //set middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  session({
-    store: memoryStore,
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 app.use("/scripts", express.static(path.join(__dirname, "public", "scripts")));
 
 //mount io for broadcasting later

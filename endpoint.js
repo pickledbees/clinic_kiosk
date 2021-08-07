@@ -5,9 +5,8 @@ const sendDataToClinic = require("./api/sendDataToClinic");
 const getClinicDataFromDB = require("./api/getClinicDataFromDB");
 
 function serveForm(req, res) {
-  let venueId = req.query.venue_id;
+  let venueId = req.query.venueId;
   if (venueId) {
-    req.session.venueId = venueId;
     res.render("form");
   } else {
     res.status(statusCode.NOT_FOUND).send("page not found");
@@ -15,16 +14,7 @@ function serveForm(req, res) {
 }
 
 function serveQPage(req, res) {
-  //extract session params
-  let { nric, venueId, mobileno, qNumber } = req.session;
-
-  // //delete later
-  // nric = "S9601403A";
-  // venueId = "STG-180000001W-83338-SEQRSELFTESTSINGLE-SE";
-  // mobileno = "12345678";
-  // qNumber = 10;
-
-  res.render("queue", { data: { nric, venueId, mobileno, qNumber } });
+  res.render("queue");
 }
 
 function callbackHandler(req, res) {
@@ -97,7 +87,7 @@ async function callSafeEntryHandler(req, res) {
 //TODO: complete
 async function submitDataHandler(req, res) {
   //verify this came from a valid session
-  const venueId = req.session.venueId;
+  const { venueId, ...personData } = req.body;
   if (!venueId) {
     //some error
     sendError(
@@ -109,10 +99,10 @@ async function submitDataHandler(req, res) {
   }
 
   //get url from db
-  let qNumber;
+  let number;
   try {
     //submit and get q number
-    qNumber = await sendDataToClinic(req.body, venueId);
+    number = await sendDataToClinic(personData, venueId);
   } catch (e) {
     return sendError(
       res,
@@ -120,11 +110,11 @@ async function submitDataHandler(req, res) {
       "failed to submit data"
     );
   }
+  const { nric, mobileno } = personData;
 
-  req.session.nric = req.body.nric;
-  req.session.mobileno = req.body.mobileno;
-  req.session.qNumber = qNumber;
-  res.status(statusCode.OK).jsonp({ redirect: "/queue" });
+  res
+    .status(statusCode.OK)
+    .jsonp({ redirect: "/queue", nric, mobileno, number, venueId });
 }
 
 //for clinic queue system to call

@@ -9,9 +9,9 @@ const myInfo = {
 $((_) => {
   getMyInfoEnv();
 
-  if (window.location.href.includes("venue_id")) {
+  if (window.location.href.includes("venueId")) {
     let urlParams = new URLSearchParams(window.location.search);
-    myInfo.venueId = urlParams.get("venue_id");
+    myInfo.venueId = urlParams.get("venueId");
   }
 });
 
@@ -81,10 +81,20 @@ function submit() {
     .forEach(({ name, value }) => (formData[name] = value));
   $.ajax({
     url: "/submit",
-    data: formData,
+    data: { ...formData, venueId: myInfo.venueId },
     type: "POST",
     success: (data, status, xhr) => {
-      window.location = data.redirect;
+      const { redirect, nric, mobileno, number, venueId } = data;
+      window.location =
+        redirect +
+        "?nric=" +
+        nric +
+        "&mobileno=" +
+        mobileno +
+        "&number=" +
+        number +
+        "&venueId=" +
+        venueId;
     },
     error: errorCallback,
   });
