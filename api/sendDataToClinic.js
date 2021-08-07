@@ -1,12 +1,23 @@
-async function sendDataToClinic(data, venueId) {
-  let clinicApi = await getClinicSubmitApi(venueId);
-  //submit data to clinic
-  return 2;
-}
+const restClient = require("superagent-bluebird-promise");
+const getClinicDataFromDB = require("./getClinicDataFromDB");
 
-async function getClinicSubmitApi(venueId) {
-  //fetch url from db based on venueId
-  return "http://localhost:3002/submit";
+async function sendDataToClinic(data, venueId) {
+  let clinicApi;
+  try {
+    const clinic = await getClinicDataFromDB(venueId);
+    clinicApi = clinic.apiUrl;
+  } catch (e) {
+    console.log(e);
+  }
+
+  let response;
+  try {
+    response = await restClient.post(clinicApi).send(data).promise();
+  } catch (e) {
+    console.log(e);
+  }
+
+  return response.body.number;
 }
 
 module.exports = sendDataToClinic;

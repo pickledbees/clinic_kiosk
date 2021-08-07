@@ -18,6 +18,9 @@ const config = {
   SAFEENTRY_APP_CLIENT_ID: "STG2-SEQR-SELF-TEST",
   SAFEENTRY_APP_CLIENT_SECRET: "",
   SAFEENTRY_API: "https://test.api.safeentry-qr.gov.sg/partner/v1/entry",
+
+  MONGODB_URL:
+    "mongodb+srv://clinicReader:clinicReaderPassword@cluster0.ckvfg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
 };
 
 for (let variable in config) {

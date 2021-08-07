@@ -3,10 +3,16 @@ const myInfo = {
   redirectUrl: "",
   authApiUrl: "",
   attributes: "",
+  venueId: "",
 };
 
 $((_) => {
   getMyInfoEnv();
+
+  if (window.location.href.includes("venue_id")) {
+    let urlParams = new URLSearchParams(window.location.search);
+    myInfo.venueId = urlParams.get("venue_id");
+  }
 });
 
 if (
@@ -14,6 +20,7 @@ if (
   window.location.href.includes("code=")
 ) {
   let urlParams = new URLSearchParams(window.location.search);
+  myInfo.venueId = urlParams.get("state");
   getMyInfoPersonData(urlParams.get("code"));
 }
 
@@ -32,7 +39,9 @@ function getMyInfoEnv() {
   });
 }
 
-function redirectToAuthMyInfo(purpose, state) {
+function redirectToAuthMyInfo() {
+  const purpose = "prefill-form";
+  const state = myInfo.venueId;
   window.location =
     myInfo.authApiUrl +
     "?client_id=" +
@@ -85,5 +94,3 @@ function errorCallback(xhr, status, error) {
   let err = JSON.parse(xhr.responseText);
   console.log(err.message);
 }
-
-//http://localhost:3001/main?venue=STG-180000001W-83338-SEQRSELFTESTSINGLE-SE

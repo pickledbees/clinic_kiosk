@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clinic Queue</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<h1>Clinic System Admin</h1>
+<div id="display"></div>
+</body>
+
+<script>
+  const socket = io();
+  const patients = new Map()
+  socket.on("number called", (data) => {
+    const number = data.number;
+    patients.delete(number)
+    render()
+  })
+
+  socket.on("patient added", data => {
+    const patient = data.patient;
+    patients.set(patient.number, patient)
+    render()
+  })
+
+  socket.on("patients", data => {
+    for (let patient of data.patients) {
+      patients.set(patient.number, patient)
+    }
+    render()
+  })
+
+  function callNumber(number) {
+    socket.emit("call number", { number })
+    patients.delete(number)
+  }
+
+  function render() {
+    const display = document.getElementById("display")
+    display.innerHTML = ""
+    for (let patient of patients.values()) {
+      display.appendChild(patientCard(patient))
+    }
+  }
+
+  function patientCard(patient) {
+    const { name, number, ...rest } = patient;
+    const card = document.createElement("div");
+    const nameHeader = document.createElement("h2");
+    const numberHeader = document.createElement("h3");
+    nameHeader.innerText = patient.name;
+    numberHeader.innerText = patient.number;
+    card.appendChild(nameHeader);
+    card.appendChild(numberHeader);
+    for (let [key, value] of Object.entries(rest)) {
+      card.appendChild(divWithText(key + ": " + value));
+    }
+    const button = document.createElement("button")
+    button.innerText = "call"
+    button.addEventListener("click", () => callNumber(patient.number))
+    card.appendChild(button)
+    return card;
+  }
+
+  function divWithText(text) {
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div;
+  }
+
+</script>
+
+</html>

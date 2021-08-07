@@ -2,6 +2,7 @@ const statusCode = require("http-status-codes").StatusCodes;
 const getPersonData = require("./api/getPersonData");
 const callSafeEntry = require("./api/callSafeEntry");
 const sendDataToClinic = require("./api/sendDataToClinic");
+const getClinicDataFromDB = require("./api/getClinicDataFromDB");
 
 function serveForm(req, res) {
   let venueId = req.query.venue_id;
@@ -26,17 +27,8 @@ function serveQPage(req, res) {
   res.render("queue", { data: { nric, venueId, mobileno, qNumber } });
 }
 
-//TODO: serve admin page to see all the patients
-function serveAdminPage(req, res) {}
-
 function callbackHandler(req, res) {
-  switch (req.params.state) {
-    case "form":
-      res.render("form");
-      break;
-    default:
-      res.render("form");
-  }
+  res.render("form");
 }
 
 function getMyInfoEnvHandler(req, res) {
@@ -116,16 +108,6 @@ async function submitDataHandler(req, res) {
     return;
   }
 
-  //verify if it is fully formed
-  const { nric, mobileno } = req.body;
-  if (!nric || !mobileno) {
-    return sendError(
-      res,
-      statusCode.BAD_REQUEST,
-      "form submission must have..."
-    );
-  }
-
   //get url from db
   let qNumber;
   try {
@@ -139,8 +121,8 @@ async function submitDataHandler(req, res) {
     );
   }
 
-  req.session.nric = nric;
-  req.session.mobileno = mobileno;
+  req.session.nric = req.body.nric;
+  req.session.mobileno = req.body.mobileno;
   req.session.qNumber = qNumber;
   res.status(statusCode.OK).jsonp({ redirect: "/queue" });
 }
@@ -148,8 +130,20 @@ async function submitDataHandler(req, res) {
 //for clinic queue system to call
 async function callNumberHandler(req, res) {
   const { number, venueId, secret } = req.body;
-  //eval secret
-  if (secret !== "secret") {
+
+  let clinicSecret;
+  try {
+    const clinic = await getClinicDataFromDB(venueId);
+    clinicSecret = clinic.secret;
+  } catch (e) {
+    return sendError(
+      res,
+      statusCode.INTERNAL_SERVER_ERROR,
+      "failed to validate number call"
+    );
+  }
+
+  if (secret !== clinicSecret) {
     return sendError(
       res,
       statusCode.UNAUTHORIZED,
