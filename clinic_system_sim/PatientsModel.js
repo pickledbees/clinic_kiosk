@@ -8,13 +8,17 @@ class PatientsModel {
     this._numberToPatient = {};
     this._number = 0;
     this._io = io;
+    this._called = new Set();
   }
 
   callNumber(number) {
     if (number in this._numberToPatient) {
       this._io.emit("number called", { number });
-      delete this._nricToPatient[this._numberToPatient[number].nric];
-      delete this._numberToPatient[number];
+      this._called.add(number);
+      //TODO: handle debug
+
+      // delete this._nricToPatient[this._numberToPatient[number].nric];
+      // delete this._numberToPatient[number];
     }
   }
 
@@ -36,6 +40,10 @@ class PatientsModel {
 
   getPatients() {
     return Object.values(this._numberToPatient);
+  }
+
+  hasCalled(number) {
+    return this._called.has(parseInt(number));
   }
 }
 

@@ -6,15 +6,28 @@ const pageData = {
   venueId: urlParams.get("venueId"),
 };
 
-$("#queue_number").text(pageData.number);
+$(() => {
+  $("#indicator").hide();
+  checkIn();
+});
 
 //connect to socket to receive calling notifications
 const socket = io();
+
+//set up socket listener
 socket.on("number called", (data) => {
   console.log(data);
   if (data.number == pageData.number && data.venueId === pageData.venueId) {
-    console.log("you're up"); //TODO: show proper alert
+    showCalled();
   }
+});
+
+$.ajax({
+  url: `/checkNumber/${pageData.venueId}/${pageData.number}`,
+  type: "GET",
+  success: (data) => {
+    if (data.called) showCalled();
+  },
 });
 
 function checkIn() {
@@ -27,6 +40,13 @@ function checkOut() {
 
 //TODO: show checkin / checkout success/failure
 function callSafeEntry(action) {
+  //show check in / out visual
+  const direction = action === "checkin" ? "in" : "out";
+  const indicator = $("#indicator");
+  const safeEntryText = $("#safeentry_text");
+  indicator.show();
+  safeEntryText.text(`Checking you ${direction} with SafeEntry...`);
+
   $.ajax({
     url: "/safeEntry",
     data: {
@@ -37,7 +57,21 @@ function callSafeEntry(action) {
       mobileno: pageData.mobileno,
     },
     type: "POST",
-    success: () => console.log(action, "success"),
-    error: () => console.log(action, "failed"),
+    success: () => {
+      indicator.hide();
+      safeEntryText.text(`Successfully checked ${direction} with SafeEntry.`);
+    },
+    error: () => {
+      indicator.hide();
+      safeEntryText.text(
+        `Failed to check ${direction} with SafeEntry, please try again.`
+      );
+    },
   });
+}
+
+function showCalled() {
+  const alertBox = $("#alert_box");
+  alertBox.text("Your Queue number has been called");
+  alertBox.addClass("ok");
 }

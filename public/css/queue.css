@@ -1,0 +1,12 @@
+body {
+    text-align: center;
+}
+
+#indicator > div {
+    margin: auto;
+}
+
+.ok {
+    background-color: green;
+    color: white;
+}

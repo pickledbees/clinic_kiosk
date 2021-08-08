@@ -9,17 +9,17 @@ const getClinicDataFromDB = require("./getClinicDataFromDB");
  * @returns {Promise<number>} q number of person
  */
 async function sendDataToClinic(data, venueId) {
-  let clinicApi;
+  let apiUrl;
   try {
     const clinic = await getClinicDataFromDB(venueId);
-    clinicApi = clinic.apiUrl;
+    apiUrl = clinic.submissionApiUrl;
   } catch (e) {
     throw new Error(`failed to fetch clinic submission API URL, ${e}`);
   }
 
   let response;
   try {
-    response = await restClient.post(clinicApi).send(data).promise();
+    response = await restClient.post(apiUrl).send(data).promise();
   } catch (e) {
     throw new Error(`failed to send data to clinic, ${e}`);
   }

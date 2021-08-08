@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Queue</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/queue.css">
+  <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+<h1><%= clinicName %></h1>
+<div class="card">
+  <h2>Your Queue Number is:</h2>
+  <h1><%= number %></h1>
+</div>
+<div id="alert_box" class="card">
+  You will be notified on this page when your queue number is called.
+</div>
+<div class="card">
+  <p id="safeentry_text"></p>
+  <div id="indicator">
+    <div class="loader"></div>
+  </div>
+</div>
+
+<button onclick="checkIn()">Check In</button>
+<button onclick="checkOut()">Check Out</button>
+</body>
+<script src="/scripts/queue.js"></script>
+</html>

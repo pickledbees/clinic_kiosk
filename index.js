@@ -20,10 +20,13 @@ const io = new Server(server);
 const router = require("./router");
 const bodyParser = require("body-parser");
 
+//view engine setup
+app.set("view engine", "ejs");
+
 //set middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/scripts", express.static(path.join(__dirname, "public", "scripts")));
+app.use(express.static(path.join(__dirname, "public")));
 
 //mount io for broadcasting later
 app.use((req, res, next) => {

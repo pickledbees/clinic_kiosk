@@ -27,6 +27,10 @@ app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 //TODO: formalise validation
 //submission API for other applications to send data to
+app.get("/checkNumber/:number", (req, res) => {
+  res.send({ called: patientsModel.hasCalled(req.params.number) });
+});
+
 app.post("/submit", (req, res) => {
   const number = patientsModel.addPatient(req.body);
   res.send({ number });

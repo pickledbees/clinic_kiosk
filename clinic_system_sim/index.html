@@ -15,7 +15,8 @@
   const patients = new Map()
   socket.on("number called", (data) => {
     const number = data.number;
-    patients.delete(number)
+    //TODO: handle debug
+    //patients.delete(number)
     render()
   })
 

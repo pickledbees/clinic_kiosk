@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Polyclinic Checkin</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/scripts/form.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/form.css">
+  <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+<h1>Welcome to <%= clinicName %></h1>
+<p>To get a <b>Queue Number</b>, please register with your personal details. Optionally, you may login with <b>Singpass</b> to pre-fill the form.</p>
+<button onclick="redirectToAuthMyInfo()">RETRIEVE MYINFO (SINGPASS)</button>
+<div class="card">
+  <div id="indicator">
+    Fetching data from MyInfo (Singpass), please wait...
+    <div>
+      <div class="loader"></div>
+    </div>
+  </div>
+  <h2>Clinic Registration Form</h2>
+  <form id="form"></form>
+  <button onclick="submit()">GET QUEUE NUMBER</button>
+</div>
+</body>
+</html>
