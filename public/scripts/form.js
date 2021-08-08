@@ -41,7 +41,11 @@ function getMyInfoEnv() {
       myInfo.authApiUrl = data.authApiUrl;
       myInfo.attributes = data.attributes;
     },
-    error: errorCallback,
+    error: () => {
+      alert(
+        "failed to load required data, please refresh the page or try again later"
+      );
+    },
   });
 }
 
@@ -64,6 +68,7 @@ function redirectToAuthMyInfo() {
     myInfo.redirectUrl;
 }
 
+//performs call to server to fetch MyInfo Person data
 function getMyInfoPersonData(authCode) {
   $.ajax({
     url: "/person",
@@ -75,7 +80,7 @@ function getMyInfoPersonData(authCode) {
     },
     error: () => {
       $("#indicator").hide();
-      errorCallback();
+      alert("failed to retrieve MyInfo data");
     },
   });
 }
@@ -149,9 +154,13 @@ function fillForm(data) {
  * data sent includes the venueId on top of person schema
  * on success, performs redirect to queue page with necessary data in query params
  */
-//TODO: perform validation, set loader, create failure to fetch alert
 function submit() {
   window.onbeforeunload = undefined; //clear warning
+
+  if (!formIsValid()) {
+    window.onbeforeunload = () => true;
+    return;
+  }
 
   let formData = {};
 
@@ -182,19 +191,22 @@ function submit() {
     error: () => {
       window.onbeforeunload = () => true; //set warning back
       alert("failed to register, please try again");
-      errorCallback();
     },
   });
 }
 
+//checks validity of form
 function formIsValid() {
   //check if any empty
   const form = $("#form");
   let formData = form.serializeArray();
   for (let { name, value } of formData) {
-    alert("All fields must be filled");
-    if (!value) return false;
+    if (!value) {
+      alert("All fields must be filled");
+      return false;
+    }
   }
+
   //check validity of nric
   const nric = form.find("input[name='nric']").val();
   if (/^[STFG]d{7}[A-Z]$/.test(nric) || /^[a-zA-Z0-9-]{3,20}$/.test(nric)) {
@@ -243,9 +255,4 @@ function str(data) {
   if (data.desc) return data.desc;
   if (typeof data === "string") return data;
   return "";
-}
-
-function errorCallback(xhr, status, error) {
-  let err = JSON.parse(xhr.responseText);
-  console.log(err.message);
 }

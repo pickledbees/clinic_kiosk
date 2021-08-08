@@ -2,67 +2,137 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Clinic Queue</title>
+  <title>ABC Clinic</title>
   <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+    body {
+      padding: 20px;
+    }
+
+    button {
+      margin: 8px 10px 8px 0;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 1em;
+      background-color: darkorange;
+      color: white;
+    }
+
+    button:hover {
+      background-color: orangered;
+    }
+
+    button:active {
+      background-color: grey;
+    }
+
+    .card {
+      width: 500px;
+      height: 450px;
+      display: inline-block;
+      padding: 10px;
+      margin: 10px;
+      overflow-y: auto;
+    }
+
+    .called_card {
+      background-color: #fff5f0;
+    }
+  </style>
 </head>
 <body>
-<h1>Clinic System Admin</h1>
+<h1>Clinic Queue Management Portal</h1>
+<h3 id="queue_count"></h3>
 <div id="display"></div>
 </body>
 
 <script>
   const socket = io();
-  const patients = new Map()
+  const patients = new Map();
   socket.on("number called", (data) => {
     const number = data.number;
-    //TODO: handle debug
-    //patients.delete(number)
-    render()
-  })
+    patients.get(number).called = true;
+    render();
+  });
 
-  socket.on("patient added", data => {
+  socket.on("patient added", (data) => {
     const patient = data.patient;
-    patients.set(patient.number, patient)
-    render()
-  })
+    patients.set(patient.number, patient);
+    render();
+  });
 
-  socket.on("patients", data => {
+  socket.on("patient deleted", (data) => {
+    const number = data.patient.number;
+    patients.delete(number);
+    render();
+  });
+
+  socket.on("patients", (data) => {
+    console.log(data);
     for (let patient of data.patients) {
-      patients.set(patient.number, patient)
+      patients.set(patient.number, patient);
     }
-    render()
-  })
+    render();
+  });
 
   function callNumber(number) {
-    socket.emit("call number", { number })
+    socket.emit("call number", { number });
+    alert("called patient")
   }
 
-  //renders the display showing all patient cards
+  function deletePatient(number) {
+    const ok = confirm(`Are you sure you want to delete patient with queue number ${number}?`)
+    if (ok) {
+      socket.emit("delete patient", { number })
+    }
+  }
+
+  //renders portal
   function render() {
-    const display = document.getElementById("display")
-    display.innerHTML = ""
+    document.getElementById("queue_count").innerText = `Currently in Queue: ${patients.size}`;
+
+    const display = document.getElementById("display");
+    display.innerHTML = "";
+
     for (let patient of patients.values()) {
-      display.appendChild(patientCard(patient))
+      display.appendChild(patientCard(patient));
     }
   }
 
   //generates patient card
   function patientCard(patient) {
-    const { name, number, ...rest } = patient;
+    const { name, number, called, ...rest } = patient;
     const card = document.createElement("div");
+
+    //render card headers
     const nameHeader = document.createElement("h2");
     const numberHeader = document.createElement("h3");
     nameHeader.innerText = patient.name;
-    numberHeader.innerText = patient.number;
+    numberHeader.innerText = "Q Number: " + patient.number;
     card.appendChild(nameHeader);
     card.appendChild(numberHeader);
+
+    //render card buttons
+    const callButton = document.createElement("button");
+    callButton.innerText = "CALL";
+    callButton.addEventListener("click", () => callNumber(patient.number));
+    card.appendChild(callButton);
+    const deleteButton = document.createElement("button");
+    deleteButton.innerText = "DELETE";
+    deleteButton.addEventListener("click", () => deletePatient(patient.number));
+    card.appendChild(deleteButton);
+
+    //render card info
+    card.appendChild(divWithText(`Status: ${called ? "Called" : "Waiting"}`))
+    card.classList.add("card")
     for (let [key, value] of Object.entries(rest)) {
       card.appendChild(divWithText(key + ": " + value));
     }
-    const button = document.createElement("button")
-    button.innerText = "call"
-    button.addEventListener("click", () => callNumber(patient.number))
-    card.appendChild(button)
+
+    if (patient.called) card.classList.add("called_card")
+
     return card;
   }
 
@@ -72,7 +142,6 @@
     div.innerText = text;
     return div;
   }
-
 </script>
 
 </html>

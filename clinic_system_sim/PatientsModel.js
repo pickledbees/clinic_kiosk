@@ -13,12 +13,9 @@ class PatientsModel {
 
   callNumber(number) {
     if (number in this._numberToPatient) {
-      this._io.emit("number called", { number });
+      this._numberToPatient[number].called = true;
       this._called.add(number);
-      //TODO: handle debug
-
-      // delete this._nricToPatient[this._numberToPatient[number].nric];
-      // delete this._numberToPatient[number];
+      this._io.emit("number called", { number });
     }
   }
 
@@ -29,13 +26,21 @@ class PatientsModel {
     }
 
     this._number++;
-    const patient = { number: this._number, ...patientData };
+    const patient = { number: this._number, called: false, ...patientData };
 
     this._numberToPatient[this._number] = patient;
     this._nricToPatient[patientData.nric] = patient;
 
     this._io.emit("patient added", { patient });
     return this._number;
+  }
+
+  deletePatient(number) {
+    const patient = this._numberToPatient[number];
+    delete this._nricToPatient[this._numberToPatient[number].nric];
+    delete this._numberToPatient[number];
+
+    this._io.emit("patient deleted", { patient });
   }
 
   getPatients() {

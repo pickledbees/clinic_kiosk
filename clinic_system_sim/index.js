@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
   //emit all patient data to new clinic management portal to load
   socket.emit("patients", { patients: patientsModel.getPatients() });
 
-  //clinic management portal calls number, alert kiosk application
+  //clinic management portal calls number, alert kiosk application and update model
   socket.on("call number", async (data) => {
     try {
       //send HTTP request to server
@@ -58,6 +58,11 @@ io.on("connection", (socket) => {
       //for debug
       console.error(`failed to call number ${data.number}, ${e}`);
     }
+  });
+
+  //clinic management portal calls number, update model
+  socket.on("delete patient", (data) => {
+    patientsModel.deletePatient(data.number);
   });
 });
 
