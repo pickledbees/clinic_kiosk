@@ -10,7 +10,7 @@ $((_) => {
   window.onbeforeunload = () => true; //warn user when navigating away from page
 
   getMyInfoEnv();
-  $("#indicator").toggle();
+  $("#indicator").hide();
 
   if (window.location.href.includes("venueId")) {
     let urlParams = new URLSearchParams(window.location.search);
@@ -24,7 +24,7 @@ $((_) => {
     let urlParams = new URLSearchParams(window.location.search);
     myInfo.venueId = urlParams.get("state");
     getMyInfoPersonData(urlParams.get("code"));
-    $("#indicator").toggle();
+    $("#indicator").show();
   }
 
   renderForm();
@@ -70,11 +70,11 @@ function getMyInfoPersonData(authCode) {
     data: { authCode },
     type: "POST",
     success: (data) => {
-      $("#indicator").toggle();
+      $("#indicator").hide();
       fillForm(data);
     },
     error: () => {
-      $("#indicator").toggle();
+      $("#indicator").hide();
       errorCallback();
     },
   });
@@ -181,6 +181,7 @@ function submit() {
     },
     error: () => {
       window.onbeforeunload = () => true; //set warning back
+      alert("failed to register, please try again");
       errorCallback();
     },
   });
