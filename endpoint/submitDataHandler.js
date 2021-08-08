@@ -14,9 +14,27 @@ const requestSchema = {
         { pattern: "^[a-zA-Z0-9-]{3,20}$" },
       ],
     },
+    name: { type: "string" },
     mobileno: { type: "string" },
+    sex: { type: "string" },
+    race: { type: "string" },
+    nationality: { type: "string" },
+    dob: { type: "string" },
+    email: { type: "string" },
+    regadd: { type: "string" },
   },
-  required: ["venueId", "nric", "mobileno"],
+  required: [
+    "venueId",
+    "nric",
+    "name",
+    "mobileno",
+    "sex",
+    "race",
+    "nationality",
+    "dob",
+    "email",
+    "regadd",
+  ],
 };
 
 const validate = getSchemaValidator(requestSchema);

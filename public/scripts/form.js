@@ -157,7 +157,7 @@ function submit() {
 
   $("#form")
     .serializeArray()
-    .forEach(({ name, value }) => (formData[name] = value));
+    .forEach(({ name, value }) => (formData[name] = value ? value : null));
 
   const ok = confirm("Submit form?");
   if (!ok) return;
@@ -185,6 +185,24 @@ function submit() {
       errorCallback();
     },
   });
+}
+
+function formIsValid() {
+  //check if any empty
+  const form = $("#form");
+  let formData = form.serializeArray();
+  for (let { name, value } of formData) {
+    alert("All fields must be filled");
+    if (!value) return false;
+  }
+  //check validity of nric
+  const nric = form.find("input[name='nric']").val();
+  if (/^[STFG]d{7}[A-Z]$/.test(nric) || /^[a-zA-Z0-9-]{3,20}$/.test(nric)) {
+    return true;
+  } else {
+    alert("invalid NRIC");
+    return false;
+  }
 }
 
 function renderForm() {
