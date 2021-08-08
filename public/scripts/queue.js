@@ -10,7 +10,7 @@ $("#queue_number").text(pageData.number);
 
 //connect to socket to receive calling notifications
 const socket = io();
-socket.on("callNumber", (data) => {
+socket.on("number called", (data) => {
   console.log(data);
   if (data.number == pageData.number && data.venueId === pageData.venueId) {
     console.log("you're up"); //TODO: show proper alert

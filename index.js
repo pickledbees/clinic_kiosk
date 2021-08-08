@@ -20,10 +20,6 @@ const io = new Server(server);
 const router = require("./router");
 const bodyParser = require("body-parser");
 
-//setup view engine
-app.set("views", path.join(__dirname, "public", "views"));
-app.set("view engine", "ejs");
-
 //set middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
