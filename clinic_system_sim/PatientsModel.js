@@ -26,7 +26,7 @@ class PatientsModel {
     }
 
     this._number++;
-    const patient = { number: this._number, called: false, ...patientData };
+    const patient = { ...patientData, number: this._number, called: false };
 
     this._numberToPatient[this._number] = patient;
     this._nricToPatient[patientData.nric] = patient;

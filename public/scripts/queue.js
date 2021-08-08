@@ -38,7 +38,6 @@ function checkOut() {
   callSafeEntry("checkout");
 }
 
-//TODO: show checkin / checkout success/failure
 function callSafeEntry(action) {
   //show check in / out visual
   const direction = action === "checkin" ? "in" : "out";

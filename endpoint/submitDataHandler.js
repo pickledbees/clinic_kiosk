@@ -2,7 +2,6 @@ const statusCode = require("http-status-codes").StatusCodes;
 const getSchemaValidator = require("../lib/getSchemaValidator");
 const sendDataToClinic = require("../api/sendDataToClinic");
 
-//TODO: complete schema when form is complete
 const requestSchema = {
   type: "object",
   properties: {
