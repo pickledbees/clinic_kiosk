@@ -7,7 +7,7 @@ async function getClinicDataFromDB(venueId) {
   try {
     client = new MongoClient(MONGO_URI);
   } catch (e) {
-    throw 1;
+    throw MONGO_URI;
   }
   try {
     await client.connect();
