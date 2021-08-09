@@ -7,7 +7,7 @@ const config = {
 
   MYINFO_APP_CLIENT_ID: "STG2-MYINFO-SELF-TEST",
   MYINFO_APP_CLIENT_SECRET: "44d953c796cccebcec9bdc826852857ab412fbe2",
-  MYINFO_APP_REDIRECT_URL: "http://localhost:3001/callback",
+  MYINFO_APP_REDIRECT_URL: "https://clinicq.azurewebsites.net/callback",
   MYINFO_API_AUTHORISE: "https://test.api.myinfo.gov.sg/com/v3/authorise",
   MYINFO_API_TOKEN: "https://test.api.myinfo.gov.sg/com/v3/token",
   MYINFO_API_PERSON: "https://test.api.myinfo.gov.sg/com/v3/person",
