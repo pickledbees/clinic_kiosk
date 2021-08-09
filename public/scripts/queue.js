@@ -46,6 +46,12 @@ function callSafeEntry(action) {
   indicator.show();
   safeEntryText.text(`Checking you ${direction} with SafeEntry...`);
 
+  const checkinButton = $("#check_in");
+  const checkoutButton = $("#check_out");
+
+  checkinButton.hide();
+  checkoutButton.hide();
+
   $.ajax({
     url: "/safeEntry",
     data: {
@@ -58,16 +64,16 @@ function callSafeEntry(action) {
     type: "POST",
     success: () => {
       indicator.hide();
+      if (action === "checkin") checkoutButton.show();
       safeEntryText.text(`Successfully checked ${direction} with SafeEntry.`);
-      if (direction === "out") {
-        //disable buttons
-        $("#check_in").hide();
-        $("#check_out").hide();
-        //TODO: maybe send a new page instead?
-      }
     },
     error: () => {
       indicator.hide();
+      if (action === "checkin") {
+        checkinButton.show();
+      } else {
+        checkoutButton.show();
+      }
       safeEntryText.text(
         `Failed to check ${direction} with SafeEntry, please try again.`
       );

@@ -13,7 +13,7 @@ const config = {
   MYINFO_API_TOKEN: "https://test.api.myinfo.gov.sg/com/v3/token",
   MYINFO_API_PERSON: "https://test.api.myinfo.gov.sg/com/v3/person",
   MYINFO_ATTRIBUTES:
-    "uinfin,name,sex,race,nationality,dob,email,mobileno,regadd,housingtype,hdbtype,marital,edulevel,noa-basic,ownerprivate,cpfcontributions,cpfbalances",
+    "uinfin,name,sex,race,nationality,dob,email,mobileno,regadd",
 
   SAFEENTRY_APP_CLIENT_ID: "STG2-SEQR-SELF-TEST",
   SAFEENTRY_APP_CLIENT_SECRET: "",
