@@ -11,20 +11,18 @@ $((_) => {
 
   getMyInfoEnv();
   $("#indicator").hide();
+  const urlParams = new URLSearchParams(window.location.search);
 
   if (window.location.href.includes("venueId")) {
-    let urlParams = new URLSearchParams(window.location.search);
     myInfo.venueId = urlParams.get("venueId");
   }
 
-  if (
-    window.location.href.includes("callback?") &&
-    window.location.href.includes("code=")
-  ) {
-    let urlParams = new URLSearchParams(window.location.search);
+  if (window.location.href.includes("callback?")) {
     myInfo.venueId = urlParams.get("state");
-    getMyInfoPersonData(urlParams.get("code"));
-    $("#indicator").show();
+    if (window.location.href.includes("code=")) {
+      getMyInfoPersonData(urlParams.get("code"));
+      $("#indicator").show();
+    }
   }
 
   renderForm();

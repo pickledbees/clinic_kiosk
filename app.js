@@ -17,7 +17,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 //middleware and routing imports
-const router = require("./router");
+const router = require("./routes");
 const bodyParser = require("body-parser");
 
 //view engine setup

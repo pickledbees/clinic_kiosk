@@ -59,6 +59,12 @@ function callSafeEntry(action) {
     success: () => {
       indicator.hide();
       safeEntryText.text(`Successfully checked ${direction} with SafeEntry.`);
+      if (direction === "out") {
+        //disable buttons
+        $("#check_in").hide();
+        $("#check_out").hide();
+        //TODO: maybe send a new page instead?
+      }
     },
     error: () => {
       indicator.hide();
