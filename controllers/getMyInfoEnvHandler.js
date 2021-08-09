@@ -7,7 +7,7 @@ function getMyInfoEnvHandler(req, res) {
   const attributes = process.env.MYINFO_ATTRIBUTES;
 
   if (!clientId || !redirectUrl || !authApiUrl || !attributes) {
-    res.status(statusCode.NOT_FOUND).jsonp({
+    return res.status(statusCode.NOT_FOUND).jsonp({
       message: "application environment variables not completely set",
     });
   }

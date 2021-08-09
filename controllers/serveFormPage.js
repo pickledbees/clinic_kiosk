@@ -12,6 +12,7 @@ async function serveFormPage(req, res) {
     const { clinicName } = await getClinicDataFromDB(venueId);
     res.render("form", { clinicName });
   } catch (e) {
+    console.error(e);
     return res.status(statusCode.NOT_FOUND).send("page not found");
   }
 }
