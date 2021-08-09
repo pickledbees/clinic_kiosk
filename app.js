@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 app.use("/", router);
 
 //listen
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log(`app listening on ${PORT}...`);
+  console.log("clinic Q management system  listening on ", PORT);
 });

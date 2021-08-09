@@ -2,7 +2,6 @@
 //for deployment, please init variables with a script
 
 const config = {
-  PORT: 3001,
   PRIVATE_KEY_PATH: "./ssl/stg-demoapp-client-privatekey-2018.pem",
   PUBLIC_CERT_PATH: "./ssl/staging_myinfo_public_cert.cer",
 
