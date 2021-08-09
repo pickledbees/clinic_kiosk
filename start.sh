@@ -15,7 +15,7 @@ export SAFEENTRY_APP_CLIENT_ID=STG2-SEQR-SELF-TEST
 export SAFEENTRY_APP_CLIENT_SECRET=
 export SAFEENTRY_API=https://test.api.safeentry-qr.gov.sg/partner/v1/entry
 
-export MONGODB_URL=mongodb+srv://clinicReader:clinicReaderPassword@cluster0.ckvfg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+export MONGODB_URL="mongodb+srv://clinicReader:clinicReaderPassword@cluster0.ckvfg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 export MONGODB_COLLECTION=clinic_api
 
 node app.js
