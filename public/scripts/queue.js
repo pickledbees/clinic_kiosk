@@ -56,11 +56,7 @@ function callSafeEntry(action) {
   indicator.show();
   safeEntryText.text(`Checking you ${direction} with SafeEntry...`);
 
-  const checkinButton = $("#check_in");
-  const checkoutButton = $("#check_out");
-
-  checkinButton.hide();
-  checkoutButton.hide();
+  hideButtons();
 
   $.ajax({
     url: "/safeEntry",
@@ -74,21 +70,31 @@ function callSafeEntry(action) {
     type: "POST",
     success: () => {
       indicator.hide();
-      if (action === "checkin") checkoutButton.show();
+      showButtons();
       safeEntryText.text(`Successfully checked ${direction} with SafeEntry.`);
     },
     error: () => {
       indicator.hide();
-      if (action === "checkin") {
-        checkinButton.show();
-      } else {
-        checkoutButton.show();
-      }
+      showButtons();
       safeEntryText.text(
         `Failed to check ${direction} with SafeEntry, please try again.`
       );
     },
   });
+}
+
+function hideButtons() {
+  const checkinButton = $("#check_in");
+  const checkoutButton = $("#check_out");
+  checkinButton.hide();
+  checkoutButton.hide();
+}
+
+function showButtons() {
+  const checkinButton = $("#check_in");
+  const checkoutButton = $("#check_out");
+  checkinButton.show();
+  checkoutButton.show();
 }
 
 function render() {
