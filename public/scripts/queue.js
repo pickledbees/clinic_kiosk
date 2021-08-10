@@ -71,13 +71,15 @@ function callSafeEntry(action) {
     success: () => {
       indicator.hide();
       showButtons();
-      safeEntryText.text(`Successfully checked ${direction} with SafeEntry.`);
+      safeEntryText.text(
+        `Successfully checked ${direction.toUpperCase()} with SafeEntry.`
+      );
     },
     error: () => {
       indicator.hide();
       showButtons();
       safeEntryText.text(
-        `Failed to check ${direction} with SafeEntry, please try again.`
+        `Failed to check ${direction.toUpperCase()} with SafeEntry, please try again.`
       );
     },
   });
