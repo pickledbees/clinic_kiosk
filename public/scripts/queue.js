@@ -4,6 +4,8 @@ const pageData = {
   mobileno: urlParams.get("mobileno"),
   number: urlParams.get("number"),
   venueId: urlParams.get("venueId"),
+  status: 0,
+  lastCalled: [],
 };
 
 $(() => {
@@ -16,17 +18,25 @@ const socket = io();
 
 //set up socket listener
 socket.on("number called", (data) => {
-  console.log(data);
-  if (data.number == pageData.number && data.venueId === pageData.venueId) {
-    showCalled();
+  if (data.venueId === pageData.venueId) {
+    if (data.number == pageData.number) pageData.status = 1;
+    pageData.lastCalled = data.lastCalled;
+    render();
   }
 });
 
+//check status on page load
 $.ajax({
-  url: `/checkNumber/${pageData.venueId}/${pageData.number}`,
+  url: `/checkStatus/${pageData.venueId}/${pageData.nric}/${pageData.number}`,
   type: "GET",
   success: (data) => {
-    if (data.called) showCalled();
+    pageData.status = data.status;
+    pageData.lastCalled = data.lastCalled;
+    render();
+  },
+  error: () => {
+    pageData.status = 3;
+    render();
   },
 });
 
@@ -81,8 +91,28 @@ function callSafeEntry(action) {
   });
 }
 
-function showCalled() {
+function render() {
   const alertBox = $("#alert_box");
-  alertBox.text("Your Queue number has been called");
-  alertBox.addClass("ok");
+  const lastCalledBox = $("#lastcalled_box");
+
+  //render last called box
+  lastCalledBox.empty();
+  pageData.lastCalled.forEach(({ number, time }) => {
+    const div = document.createElement("div");
+    div.innerText = `Number ${number} called at ${new Date(
+      time
+    ).toLocaleTimeString()}`;
+    lastCalledBox.append(div);
+  });
+
+  //render status
+  let statusText = {
+    0: "You will be notified on this page when your queue number is called",
+    1: "Your queue number has been called",
+    2: "This page is old, please re-register to get a new queue number",
+    3: "ERROR: Could not connect, please refresh page and try again",
+  }[pageData.status];
+  alertBox.text(statusText);
+
+  if (pageData.status === 1) alertBox.addClass("ok");
 }

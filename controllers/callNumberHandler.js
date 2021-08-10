@@ -7,9 +7,19 @@ const requestSchema = {
   properties: {
     number: { type: "integer" },
     venueId: { type: "string" },
+    lastCalled: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          number: { type: "integer" },
+          time: { type: "integer" },
+        },
+      },
+    },
     secret: { type: "string" },
   },
-  required: ["number", "venueId", "secret"],
+  required: ["number", "venueId", "secret", "lastCalled"],
 };
 
 const validate = getSchemaValidator(requestSchema);
@@ -24,7 +34,7 @@ async function callNumberHandler(req, res) {
   }
 
   //deconstruct body
-  const { number, venueId, secret } = req.body;
+  const { number, venueId, secret, lastCalled } = req.body;
 
   //get clinic secret from DB to verify with secret submitted
   let clinicSecret;
@@ -46,7 +56,7 @@ async function callNumberHandler(req, res) {
 
   //notify subscribed clients
   //TODO: optimize this so it only broadcasts to sockets of appropriate venue
-  const data = { number, venueId };
+  const data = { number, venueId, lastCalled };
   req.io.emit("number called", data);
   res.status(statusCode.OK).send();
 }

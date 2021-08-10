@@ -16,9 +16,7 @@
   <h2>Your Queue Number is:</h2>
   <h1><%= number %></h1>
 </div>
-<div id="alert_box" class="card">
-  You will be notified on this page when your queue number is called.
-</div>
+<div id="alert_box" class="card">Checking status...</div>
 <div class="card">
   <p id="safeentry_text"></p>
   <div id="indicator">
@@ -28,6 +26,9 @@
 
 <button id="check_in" onclick="checkIn()">Check In</button>
 <button id="check_out" onclick="checkOut()">Check Out</button>
+
+<div id="lastcalled_box" class="card"></div>
+
 </body>
 <script src="/scripts/queue.js"></script>
 </html>

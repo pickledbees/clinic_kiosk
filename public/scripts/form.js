@@ -89,7 +89,6 @@ function getMyInfoPersonData(authCode) {
  * @param data
  */
 function fillForm(data) {
-  console.log(data);
   //extract relevant fields
   let {
     uinfin: nric,
