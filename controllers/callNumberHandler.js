@@ -2,6 +2,7 @@ const statusCode = require("http-status-codes").StatusCodes;
 const getSchemaValidator = require("../lib/getSchemaValidator");
 const getClinicDataFromDB = require("../api/getClinicDataFromDB");
 
+//schema for controller request
 const requestSchema = {
   type: "object",
   properties: {
@@ -24,6 +25,12 @@ const requestSchema = {
 
 const validate = getSchemaValidator(requestSchema);
 
+/**
+ * Handler for Number Call API. Clinics call this API to call a number
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 async function callNumberHandler(req, res) {
   //validate
   const result = validate(req.body);
@@ -57,6 +64,8 @@ async function callNumberHandler(req, res) {
   //notify subscribed clients in relevant venueId
   const data = { number, lastCalled };
   req.io.in(venueId).emit("number called", data);
+
+  //send back response to clinic
   res.status(statusCode.OK).send();
 }
 

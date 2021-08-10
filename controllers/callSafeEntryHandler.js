@@ -2,6 +2,7 @@ const statusCode = require("http-status-codes").StatusCodes;
 const getSchemaValidator = require("../lib/getSchemaValidator");
 const callSafeEntry = require("../api/callSafeEntry");
 
+//schema for controller request
 const requestSchema = {
   type: "object",
   properties: {
@@ -22,6 +23,12 @@ const requestSchema = {
 
 const validate = getSchemaValidator(requestSchema);
 
+/**
+ * SafeEntry handler to call Singpass SafeEntry API
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 async function callSafeEntryHandler(req, res) {
   //validate
   const result = validate(req.body);
@@ -37,6 +44,7 @@ async function callSafeEntryHandler(req, res) {
   //call safe entry API
   try {
     await callSafeEntry(subType, sub, actionType, venueId, mobileno);
+    //respond with CREATED status on success
     res
       .status(statusCode.CREATED)
       .send({ message: `safe entry ${actionType} successful` });

@@ -8,6 +8,15 @@ const CLIENT_SECRET = process.env.SAFEENTRY_APP_CLIENT_SECRET;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const PUBLIC_CERT = process.env.PUBLIC_CERT;
 
+/**
+ * Calls the SafeEntry API
+ * @param subType
+ * @param sub
+ * @param actionType
+ * @param venueId
+ * @param mobileNo
+ * @returns {Promise<boolean>} true means successful call
+ */
 async function callSafeEntry(subType, sub, actionType, venueId, mobileNo) {
   let data = {
     subType,

@@ -2,6 +2,7 @@ const statusCode = require("http-status-codes").StatusCodes;
 const getSchemaValidator = require("../lib/getSchemaValidator");
 const getPersonData = require("../api/getPersonData");
 
+//schema for controller request
 const requestSchema = {
   type: "object",
   properties: {
@@ -12,6 +13,12 @@ const requestSchema = {
 
 const validate = getSchemaValidator(requestSchema);
 
+/**
+ * Handler to get person data from MyInfo Person API given an authorisation code obtained from Singpass
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 async function getPersonDataHandler(req, res) {
   //validate request
   const result = validate(req.body);
@@ -24,7 +31,7 @@ async function getPersonDataHandler(req, res) {
   //deconstruct body
   const { authCode } = req.body;
 
-  //attempt get person data call
+  //call MyInfo Person API
   try {
     let personData = await getPersonData(authCode);
     res.status(statusCode.OK).jsonp(personData);

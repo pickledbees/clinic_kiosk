@@ -1,5 +1,11 @@
 const statusCode = require("http-status-codes").StatusCodes;
 
+/**
+ * Handler to get relevant environment variables
+ * @param req
+ * @param res
+ * @returns {*}
+ */
 function getMyInfoEnvHandler(req, res) {
   const clientId = process.env.MYINFO_APP_CLIENT_ID;
   const redirectUrl = process.env.MYINFO_APP_REDIRECT_URL;

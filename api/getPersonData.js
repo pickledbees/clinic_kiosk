@@ -26,7 +26,13 @@ async function getPersonData(authCode) {
   return await callPersonApi(token);
 }
 
+/**
+ * Calls the MyInfo token API to get token given an authorization code
+ * @param authCode
+ * @returns {Promise<*>}
+ */
 async function getToken(authCode) {
+  //construct params
   let params = {
     grant_type: "authorization_code",
     code: authCode,
@@ -35,6 +41,7 @@ async function getToken(authCode) {
     client_secret: CLIENT_SECRET,
   };
 
+  //construct headers
   let authHeaders = security.generateSHA256withRSAHeader(
     API_URL_TOKEN,
     params,
@@ -50,6 +57,7 @@ async function getToken(authCode) {
     Authorization: authHeaders,
   };
 
+  //perform call to get token
   let response;
   try {
     response = await restClient
@@ -68,6 +76,11 @@ async function getToken(authCode) {
   }
 }
 
+/**
+ * Calls the MyInfo Person API to get person data given a valid token
+ * @param token
+ * @returns {Promise<*>}
+ */
 async function callPersonApi(token) {
   //verify JWS
   let decoded;

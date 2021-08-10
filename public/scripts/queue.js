@@ -1,3 +1,4 @@
+//Extract data from query string to use in subsequent API calls
 const urlParams = new URLSearchParams(window.location.search);
 const pageData = {
   nric: urlParams.get("nric"),
@@ -8,6 +9,7 @@ const pageData = {
   lastCalled: [],
 };
 
+//Perform automatic SafeEntry check-in
 $(() => {
   $("#indicator").hide();
   checkIn();
@@ -16,6 +18,7 @@ $(() => {
 //connect to socket to receive calling notifications
 const socket = io();
 
+//register socket in SocketIO room given by venueId
 socket.emit("register socket", { venueId: pageData.venueId });
 
 //set up socket listener
@@ -48,6 +51,10 @@ function checkOut() {
   callSafeEntry("checkout");
 }
 
+/**
+ * Performs safe entry call, uses the server for encryption and auth header creation
+ * @param action
+ */
 function callSafeEntry(action) {
   //show check in / out visual
   const direction = action === "checkin" ? "in" : "out";
@@ -58,6 +65,7 @@ function callSafeEntry(action) {
 
   hideButtons();
 
+  //perform call
   $.ajax({
     url: "/safeEntry",
     data: {
@@ -85,6 +93,8 @@ function callSafeEntry(action) {
   });
 }
 
+//Functions to hide / show check in / check out buttons
+
 function hideButtons() {
   const checkinButton = $("#check_in");
   const checkoutButton = $("#check_out");
@@ -99,6 +109,7 @@ function showButtons() {
   checkoutButton.show();
 }
 
+//renders the alert box and recently called box
 function render() {
   const alertBox = $("#alert_box");
   const lastCalledBox = $("#lastcalled_box");

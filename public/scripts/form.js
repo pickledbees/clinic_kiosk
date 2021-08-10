@@ -1,3 +1,4 @@
+//MyInfo data, used for subsequent API requests
 const myInfo = {
   clientId: "",
   redirectUrl: "",
@@ -9,6 +10,7 @@ const myInfo = {
 $((_) => {
   window.onbeforeunload = () => true; //warn user when navigating away from page
 
+  //populate MyInfo data
   getMyInfoEnv();
   $("#indicator").hide();
   const urlParams = new URLSearchParams(window.location.search);
@@ -28,6 +30,9 @@ $((_) => {
   renderForm();
 });
 
+/**
+ * Performs API call to get application environment variables
+ */
 function getMyInfoEnv() {
   $.ajax({
     url: "/myInfoEnv",
@@ -47,6 +52,9 @@ function getMyInfoEnv() {
   });
 }
 
+/**
+ * Performs redierct to Singpass / Mockpass login to obtain authorization code
+ */
 function redirectToAuthMyInfo() {
   window.onbeforeunload = undefined; //clear warning
 
@@ -66,7 +74,9 @@ function redirectToAuthMyInfo() {
     myInfo.redirectUrl;
 }
 
-//performs call to server to fetch MyInfo Person data
+/**
+ * Performs call to server to fetch MyInfo Person data
+ */
 function getMyInfoPersonData(authCode) {
   $.ajax({
     url: "/person",
@@ -85,7 +95,6 @@ function getMyInfoPersonData(authCode) {
 
 /**
  * Fills the form based on raw SingPass MyInfo Person API response body
- * form follows a standard person schema
  * @param data
  */
 function fillForm(data) {
@@ -102,10 +111,12 @@ function fillForm(data) {
     regadd,
   } = data;
 
+  //format mobileno
   if (mobileno) {
     mobileno = str(mobileno.nbr);
   }
 
+  //format regadd
   if (regadd) {
     if (regadd.type === "SG") {
       const { country, block, building, floor, unit, street, postal } = regadd;
@@ -147,9 +158,9 @@ function fillForm(data) {
 }
 
 /**
- * Submit form data, enforces that mobile number and NRIC fields be filled
- * data sent includes the venueId on top of person schema
- * on success, performs redirect to queue page with necessary data in query params
+ * Submits form data, enforces that all fields be filled
+ * data sent includes the venueId on top of form data
+ * on success, performs redirect to Queue Page with necessary data in query params
  */
 function submit() {
   window.onbeforeunload = undefined; //clear warning
@@ -216,6 +227,7 @@ function formIsValid() {
   //TODO: check validity of number
 }
 
+//renders the form
 function renderForm() {
   const form = $("#form");
   [
@@ -231,6 +243,7 @@ function renderForm() {
   ].forEach((fragment) => form.append(fragment));
 }
 
+//helper function to create label-input elements
 function labelInputPair(labelText, name) {
   const div = document.createElement("div");
   const label = document.createElement("label");

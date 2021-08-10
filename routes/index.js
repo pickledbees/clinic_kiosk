@@ -15,13 +15,14 @@ router.get("/form", serveFormPage);
 router.get("/callback", serveFormPage);
 router.get("/queue", serveQPage);
 
-//Api
+//API (Browser facing)
 router.get("/checkStatus/:venueId/:nric/:number", checkStatusHandler);
-
 router.get("/myInfoEnv", getMyInfoEnvHandler);
 router.post("/person", getPersonDataHandler);
 router.post("/submit", submitDataHandler);
 router.post("/safeEntry", callSafeEntryHandler);
+
+//API (Clinic facing)
 router.post("/callNumber", callNumberHandler);
 
 module.exports = router;
