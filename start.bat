@@ -19,5 +19,6 @@ set SAFEENTRY_API=https://test.api.safeentry-qr.gov.sg/partner/v1/entry
 
 set MONGODB_URL=mongodb+srv://clinicReader:clinicReaderPassword@cluster0.ckvfg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 set MONGODB_COLLECTION=clinic_api
+set MONGODB_DB=clinics
 
 node app.js
