@@ -28,6 +28,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+//let sockets join rooms by venueId
+io.on("connection", (socket) => {
+  socket.on("register socket", ({ venueId }) => socket.join(venueId));
+});
+
 //mount io for broadcasting later
 app.use((req, res, next) => {
   req.io = io;

@@ -54,10 +54,9 @@ async function callNumberHandler(req, res) {
       .jsonp({ message: "cannot call number, unauthorised request" });
   }
 
-  //notify subscribed clients
-  //TODO: optimize this so it only broadcasts to sockets of appropriate venue
-  const data = { number, venueId, lastCalled };
-  req.io.emit("number called", data);
+  //notify subscribed clients in relevant venueId
+  const data = { number, lastCalled };
+  req.io.in(venueId).emit("number called", data);
   res.status(statusCode.OK).send();
 }
 

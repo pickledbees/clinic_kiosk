@@ -16,13 +16,13 @@ $(() => {
 //connect to socket to receive calling notifications
 const socket = io();
 
+socket.emit("register socket", { venueId: pageData.venueId });
+
 //set up socket listener
 socket.on("number called", (data) => {
-  if (data.venueId === pageData.venueId) {
-    if (data.number == pageData.number) pageData.status = 1;
-    pageData.lastCalled = data.lastCalled;
-    render();
-  }
+  if (data.number == pageData.number) pageData.status = 1;
+  pageData.lastCalled = data.lastCalled;
+  render();
 });
 
 //check status on page load

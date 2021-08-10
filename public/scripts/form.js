@@ -212,6 +212,8 @@ function formIsValid() {
     alert("invalid NRIC");
     return false;
   }
+
+  //TODO: check validity of number
 }
 
 function renderForm() {
