@@ -4,7 +4,7 @@
   * [Architecture](#architecture)
   * [Using ClinicQ](#using-clinicq)
   * [Deployment](#deployment)
-  * [Local Development](#local-development)
+  * [Local Development](#local-development-setup)
     + [Setup Steps](#setup-steps)
       - [1. Set up Environment Variables](#1-set-up-environment-variables)
       - [2. Set up ClinicQ application](#2-set-up-clinicq-application)
@@ -14,13 +14,13 @@
   * [Database Setup](#database-setup)
   * [API](#api)
     + [Browser Facing](#browser-facing)
-      - [```GET /checkStatus<venueId>/<nric>/<number>```](#---get--checkstatus-venueid---nric---number----)
-      - [```GET /myInfoEnv```](#---get--myinfoenv---)
-      - [```POST /person```](#---post--person---)
-      - [```POST /submit```](#---post--submit---)
-      - [```POST /safeEntry```](#---post--safeentry---)
+      - [```GET /checkStatus<venueId>/<nric>/<number>```](#get-checkstatusvenueidnricnumber)
+      - [```GET /myInfoEnv```](#get-myinfoenv)
+      - [```POST /person```](#post-person)
+      - [```POST /submit```](#post-submit)
+      - [```POST /safeEntry```](#post-safeentry)
     + [Clinic Facing](#clinic-facing)
-      - [```POST /callNumber```](#---post--callnumber---)
+      - [```POST /callNumber```](#post-callnumber)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
