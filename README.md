@@ -4,12 +4,12 @@
   * [Architecture](#architecture)
   * [Using ClinicQ](#using-clinicq)
   * [Deployment](#deployment)
-  * [Local Development](#local-development-setup)
+  * [Local Development Setup](#local-development-setup)
     + [Setup Steps](#setup-steps)
-      - [1. Set up Environment Variables](#1-set-up-environment-variables)
-      - [2. Set up ClinicQ application](#2-set-up-clinicq-application)
-      - [3. Set up simulated clinic server](#3-set-up-simulated-clinic-server)
-      - [4. Set up MonogDB Database](#4-set-up-monogdb-database)
+      - [1. Set up simulated clinic server](#1-set-up-simulated-clinic-server)
+      - [2. Set up MonogDB Database](#2-set-up-monogdb-database)
+      - [3. Set up Environment Variables](#3-set-up-environment-variables)
+      - [4. Set up ClinicQ application](#4-set-up-clinicq-application)
   * [Environment Variables](#environment-variables)
   * [Database Setup](#database-setup)
   * [API](#api)
@@ -49,8 +49,7 @@ The implementation of ClinicQ API Server is stateless and can be replicated to s
 ## Using ClinicQ
 This project comes with a [PowerPoint](docs/ClinicQ_Application.pptx) demonstrating the usage of ClinicQ under the *ClinicQ Usage (Storyboard)* section.
 
-
-In real-life deployment, users access the ClinicQ application by scanning a QR code located at the clinic. To access the publicly **demo** deployed instance, you may scan this:
+In real-life deployment, users access the ClinicQ application by scanning a QR code located at the clinic. To access the publicly deployed **demo** instance, you may scan this:
 
 **NOTE**: The demo instance is **not registered** under Singpass and does not have the necessary permissions to use a custom callback URL,
 as such, the pre-fill form feature **will not work**. To use that feature, consider using a local deployment instead. (see [Local Development Setup](#local-development-setup))
@@ -85,12 +84,21 @@ The NodeJS version used during development was v10.11.0. For hot-reloads on code
 The application server itself is stateless and uses a connected MongoDB database to store information.  
 
 ### Setup Steps
-To develop locally, 3 components need to run, the ClinicQ application, the simulated clinic server and MongoDB database.
+To develop locally, 3 components need to run:
+- A clinic server
+- The ClinicQ application
+- A MongoDB database used by ClinicQ.
 
-#### 1. Set up Environment Variables
+#### 1. Set up simulated clinic server
+Refer to this [repository](https://github.com/pickledbees/clinic_sim) for setup details.
+
+#### 2. Set up MonogDB Database
+Refer to [Database Setup](#database-setup) for setup details.
+
+#### 3. Set up Environment Variables
 Refer to [Environment Variables](#environment-variables) for details.
 
-#### 2. Set up ClinicQ application
+#### 4. Set up ClinicQ application
 - Install [NodeJS](https://nodejs.org/en/) if not already installed. Any version >10.11.0 should work.
 - In the root directory, run ```npm install``` to install dependencies
 - Install [nodemon](https://www.npmjs.com/package/nodemon) globally: ```npm install -g nodemon```
@@ -104,23 +112,17 @@ clinic Q system listening on 3001
 
 You can now access a Form Page at ```http://localhost:3001/form?venueId=STG-180000001W-83338-SEQRSELFTESTSINGLE-SE```
 
-#### 3. Set up simulated clinic server
-Refer to this [repository](https://github.com/pickledbees/clinic_sim) for setup details.
-
-#### 4. Set up MonogDB Database
-Refer to [Database Setup](#database-setup) for setup details.
-
 ## Environment Variables
 The ClinicQ Application uses the following environment variables in its execution.
 For **deployment**, edit [start.bat](start.bat) or [start.sh](start.sh). For **development** edit [startdev.bat](startdev.sh).
 
-**NOTE**: For ```MYINFO_APP_REDIRECT_URL```, the format should be ```<protocol>://<apphostname>/callback``` for deployment.
+**NOTE**: For ```MYINFO_APP_REDIRECT_URL```, the format should be ```<protocol>://<apphostname>/callback```.
 
 | Variable                    | Description                                                                                                                    |
 |-----------------------------|--------------------------------------------------------------------------------------------------------------------------------|
 | PORT                        | The port for the server to listen on. Not necessary for deployment in container environments                                   |
 | PRIVATE_KEY_PATH            | Relative path from root directory to private key (.pem format)                                                                 |
-| PUBLIC_CERT_PATH            | Relative path from root directory to private key (.cer format)                                                                 |
+| PUBLIC_CERT_PATH            | Relative path from root directory to public cert (.cer format)                                                                 |
 | MYINFO_APP_CLIENT_ID        | Client ID for registered MyInfo application                                                                                    |
 | MYINFO_APP_CLIENT_SECRET    | Client Secret for registered MyInfo application                                                                                |
 | MYINFO_APP_REDIRECT_URL     | Redirect URL after authorization from Singpass, used to call application server to serve page with authcode                    |
@@ -138,7 +140,7 @@ For **deployment**, edit [start.bat](start.bat) or [start.sh](start.sh). For **d
 
 ## Database Setup
 ClinicQ queries for API information and other clinic related information from a database during operation, thus the clinic will have to insert its API information (and other relevant details) into the database.
-The prototype uses MongoDB (noSQL document-based). Below is a sample clinic document stored in the database:
+The prototype uses MongoDB (noSQL document-based). Below is a sample clinic document stored in a database collection:
 
 ![clinic document as seen in MongoDB](docs/mongo_clinic_document.png)
 
@@ -148,7 +150,7 @@ The prototype uses MongoDB (noSQL document-based). Below is a sample clinic docu
 - ```submissionApiUrl``` is used by clinicQ to send registration form data to the clinic
 - ```checkStatusApiUrl``` is used by clinicQ to check the status of patient in the queue by NRIC and queue number
 
-**For development / local deployment purposes**, change ```submissionApiUrl``` and ```checkStatusApiUrl``` to point to the simulated clinic server.
+**For development / local deployment purposes**, change ```submissionApiUrl``` and ```checkStatusApiUrl``` to point to the simulated clinic server APIs.
 
 If you are using the simulated clinic server and its default settings at this [repository](https://github.com/pickledbees/clinic_sim), the following document will do:
 
