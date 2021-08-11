@@ -1,4 +1,4 @@
-#ClinicQ Application
+# ClinicQ Application
 
 *ClinicQ* is designed to act as a patient-facing frontend service for the queue management systems of clinics.
 After onboarding with the ClinicQ system, the clinic's patients would be able to enjoy:
@@ -14,7 +14,7 @@ This project uses the *MyInfo Person API* and *SafeEntry API* from *Singpass* to
 
 !![ClinicQ storyboard](docs/progression.png)
 
-##Architecture
+## Architecture
 ClinicQ is designed to act as a patient-facing frontend service for clinic queue management systems.
 The ClinicQ API Server is responsible for serving the relevant UI pages, as well as sending patient data submissions to the appropriate clinic queue management systems servers by calling their exposed web APIs. In turn, ClinicQ has exposed web APIs for clinics to call.
 The exposed API information of each clinic is maintained in a noSQL database (MongoDB).
@@ -22,7 +22,7 @@ The implementation of ClinicQ API Server is stateless and can be replicated to s
 
 ![architecture diagram](docs/architecture.png)
 
-##Using ClinicQ
+## Using ClinicQ
 This project comes with a [PowerPoint](docs/ClinicQ_Application.pptx) demonstrating the usage of ClinicQ under the *ClinicQ Usage (Storyboard)* section.
 
 
@@ -37,7 +37,7 @@ For development purposes with the ClinicQ application deployed at ```localhost:3
 They essentially point to ```/form?venueId=<venueId>``` where ```<venueId>``` is the clinic's registered venue ID under SafeEntry.
 
 
-##Deployment
+## Deployment
 This project comes included with start scripts that set the necessary environment variables for operation, as well as to start the application.
 For more details on the environment variables used, see [Environment Variables](#environment-variables).
 
@@ -52,18 +52,18 @@ For **demo** purposes, an instance of ClincQ and the simulated clinic server has
 both projects use Github Actions to perform CD to the App Service. The workflow ```.yml``` files can be found [here](.github/workflows/main_clinicq.yml).
 A database used for this demo has also been set up.
 
-##Local Development
+## Local Development
 The application uses a simple NodeJS backend built on the ExpressJS framework and serves pages rendered with the EJS templating engine.
 The NodeJS version used during development was v10.11.0. For hot-reloads on code changes, it is recommended to use nodemon.
 The application server itself is stateless and uses a connected MongoDB database to store information.  
 
-###Setup Steps
+### Setup Steps
 To develop locally, 3 components need to run, the ClinicQ application, the simulated clinic server and MongoDB database.
 
-####1. Set up Environment Variables
+#### 1. Set up Environment Variables
 Refer to [Environment Variables](#environment-variables) for details.
 
-####2. Set up ClinicQ application
+#### 2. Set up ClinicQ application
 - Install [NodeJS](https://nodejs.org/en/) if not already installed. Any version >10.11.0 should work.
 - In the root directory, run ```npm install``` to install dependencies
 - Install [nodemon](https://www.npmjs.com/package/nodemon) globally: ```npm install -g nodemon```
@@ -75,13 +75,13 @@ The clinicQ application is then deployed locally listening on port 3001 by defau
 clinic Q system listening on 3001
 ```
 
-####3. Set up simulated clinic server
+#### 3. Set up simulated clinic server
 Refer to this [repository](https://github.com/pickledbees/clinic_sim) for setup details.
 
-####4. Set up MonogDB Database
+#### 4. Set up MonogDB Database
 Refer to [Database Setup](#database-setup) for setup details.
 
-##Environment Variables
+## Environment Variables
 The ClinicQ Application uses the following environment variables in its execution.
 
 **NOTE**: For ```MYINFO_APP_REDIRECT_URL```, the format should be ```<protocol>://<apphostname>/callback``` for deployment.
@@ -106,7 +106,7 @@ The ClinicQ Application uses the following environment variables in its executio
 | MONGODB_DB                  | Name of MongoDB database containing MONGODB_COLLECTION      
 
 
-##Database Setup
+## Database Setup
 ClinicQ queries for API information and other clinic related information from a database during operation, thus the clinic will have to insert its API information (and other relevant details) into the database.
 The prototype uses MongoDB (noSQL document-based). Below is a sample clinic document stored in the database:
 
@@ -126,10 +126,10 @@ If you are using the simulated clinic server and its default settings at this [r
 
 The ```_id``` attribute is trivial and not relevant to the operation of the ClinicQ prototype.
 
-##API
-###Browser Facing
+## API
+### Browser Facing
 
-####```GET /checkStatus<venueId>/<nric>/<number>```
+#### ```GET /checkStatus<venueId>/<nric>/<number>```
 Gets the status of the patient given a venueId, NRIC and queue number. 
 
 Sample response (200):
@@ -159,7 +159,7 @@ Sample response (200):
 
 ```lastCalled```: list of recently called numbers.
 
-####```GET /myInfoEnv```
+#### ```GET /myInfoEnv```
 Gets some environment variables of ClinicQ application related to MyInfo API.
 
 Sample response (200):
@@ -172,7 +172,7 @@ Sample response (200):
 }
 ```
 
-####```POST /person```
+#### ```POST /person```
 Gets person data from MyInfo Person API using authorization code retrieved from Singpass authorization process.
 
 Sample Request:
@@ -275,7 +275,7 @@ Sample Response (200)
 ```
 The response follows the person schema from MyInfo API, refer to the official [documentation](https://public.cloud.myinfo.gov.sg/myinfo/api/myinfo-kyc-v3.2.0.html) for more information.
 
-####```POST /submit```
+#### ```POST /submit```
 Submits form data to ClinicQ server so ClinicQ server can send to the appropriate clinic.
 
 Sample request:
@@ -303,7 +303,7 @@ Sample Response (200):
   "venueId": "STG-180000001W-83338-SEQRSELFTESTSINGLE-SE"
 }
 ```
-####```POST /safeEntry```
+#### ```POST /safeEntry```
 Calls ClinicQ server to call SafeEntry to perform check in / out
 
 Sample Request:
@@ -322,8 +322,8 @@ Sample Response (201):
   "message":"safe entry checkin successful"
 }
 ```
-###Clinic Facing
-####```POST /callNumber```
+### Clinic Facing
+#### ```POST /callNumber```
 Calls ClinicQ server to notify the appropriate patient based on queue number and venue ID. Clinic must also supply
 a list of recently called numbers in the request.
 
