@@ -45,5 +45,5 @@ app.use("/", router);
 //listen
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log("clinic Q management system  listening on ", PORT);
+  console.log("clinic Q system listening on", PORT);
 });
