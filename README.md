@@ -102,6 +102,8 @@ The clinicQ application is then deployed locally listening on port 3001 by defau
 clinic Q system listening on 3001
 ```
 
+You can now access a Form Page at ```http://localhost:3001/form?venueId=STG-180000001W-83338-SEQRSELFTESTSINGLE-SE```
+
 #### 3. Set up simulated clinic server
 Refer to this [repository](https://github.com/pickledbees/clinic_sim) for setup details.
 
