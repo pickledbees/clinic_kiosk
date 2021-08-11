@@ -24,6 +24,8 @@
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
+![ClinicQ storyboard](docs/progression.png)
+
 *ClinicQ* is designed to act as a patient-facing frontend service for the queue management systems of clinics.
 After onboarding with the ClinicQ system, the clinic's patients would be able to enjoy:
 
@@ -35,8 +37,6 @@ For clinics, they can easily on-board their existing queue / registration system
 For more details on onboarding, see the included [PowerPoint](docs/ClinicQ_Application.pptx).
 
 This project uses the *MyInfo Person API* and *SafeEntry API* from *Singpass* to enable its form pre-filling and SafeEntry check in / out capabilities.
-
-![ClinicQ storyboard](docs/progression.png)
 
 ## Architecture
 ClinicQ is designed to act as a patient-facing frontend service for clinic queue management systems.
@@ -51,6 +51,9 @@ This project comes with a [PowerPoint](docs/ClinicQ_Application.pptx) demonstrat
 
 
 In real-life deployment, users access the ClinicQ application by scanning a QR code located at the clinic. To access the publicly **demo** deployed instance, you may scan this:
+
+**NOTE**: The demo instance is **not registered** under Singpass and does not have the necessary permissions to use a custom callback URL,
+as such, the pre-fill form feature **will not work**. To use that feature, consider using a local deployment instead. (see [Local Development Setup](#local-development-setup))
 
 ![Live QR code](docs/live_qr.png)
 
@@ -76,7 +79,7 @@ For **demo** purposes, an instance of ClincQ and the simulated clinic server has
 both projects use Github Actions to perform CD to the App Service. The workflow ```.yml``` files can be found [here](.github/workflows/main_clinicq.yml).
 A database used for this demo has also been set up.
 
-## Local Development
+## Local Development Setup
 The application uses a simple NodeJS backend built on the ExpressJS framework and serves pages rendered with the EJS templating engine.
 The NodeJS version used during development was v10.11.0. For hot-reloads on code changes, it is recommended to use nodemon.
 The application server itself is stateless and uses a connected MongoDB database to store information.  
