@@ -1,6 +1,5 @@
-const fs = require("fs");
-
 //load in keys and certs
+const fs = require("fs");
 process.env.PUBLIC_CERT = fs.readFileSync(process.env.PUBLIC_CERT_PATH, "utf8");
 process.env.PRIVATE_KEY = fs.readFileSync(process.env.PRIVATE_KEY_PATH, "utf8");
 
