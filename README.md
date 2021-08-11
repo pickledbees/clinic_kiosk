@@ -110,7 +110,7 @@ Refer to [Database Setup](#database-setup) for setup details.
 
 ## Environment Variables
 The ClinicQ Application uses the following environment variables in its execution.
-For **deployment**, edit [start.bat](start.bat) or [start.sh](start.sh). For **development** edit [startdev.sh](startdev.sh).
+For **deployment**, edit [start.bat](start.bat) or [start.sh](start.sh). For **development** edit [startdev.bat](startdev.sh).
 
 **NOTE**: For ```MYINFO_APP_REDIRECT_URL```, the format should be ```<protocol>://<apphostname>/callback``` for deployment.
 
