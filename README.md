@@ -1,5 +1,29 @@
 # ClinicQ Application
 
+- [ClinicQ Application](#clinicq-application)
+  * [Architecture](#architecture)
+  * [Using ClinicQ](#using-clinicq)
+  * [Deployment](#deployment)
+  * [Local Development](#local-development)
+    + [Setup Steps](#setup-steps)
+      - [1. Set up Environment Variables](#1-set-up-environment-variables)
+      - [2. Set up ClinicQ application](#2-set-up-clinicq-application)
+      - [3. Set up simulated clinic server](#3-set-up-simulated-clinic-server)
+      - [4. Set up MonogDB Database](#4-set-up-monogdb-database)
+  * [Environment Variables](#environment-variables)
+  * [Database Setup](#database-setup)
+  * [API](#api)
+    + [Browser Facing](#browser-facing)
+      - [```GET /checkStatus<venueId>/<nric>/<number>```](#---get--checkstatus-venueid---nric---number----)
+      - [```GET /myInfoEnv```](#---get--myinfoenv---)
+      - [```POST /person```](#---post--person---)
+      - [```POST /submit```](#---post--submit---)
+      - [```POST /safeEntry```](#---post--safeentry---)
+    + [Clinic Facing](#clinic-facing)
+      - [```POST /callNumber```](#---post--callnumber---)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 *ClinicQ* is designed to act as a patient-facing frontend service for the queue management systems of clinics.
 After onboarding with the ClinicQ system, the clinic's patients would be able to enjoy:
 
@@ -12,7 +36,7 @@ For more details on onboarding, see the included [PowerPoint](docs/ClinicQ_Appli
 
 This project uses the *MyInfo Person API* and *SafeEntry API* from *Singpass* to enable its form pre-filling and SafeEntry check in / out capabilities.
 
-!![ClinicQ storyboard](docs/progression.png)
+![ClinicQ storyboard](docs/progression.png)
 
 ## Architecture
 ClinicQ is designed to act as a patient-facing frontend service for clinic queue management systems.
