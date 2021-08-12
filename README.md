@@ -82,7 +82,7 @@ both projects use Github Actions to perform CD to the App Service. The workflow 
 A database used for this demo has also been set up.
 
 ## Quickstart
-For the TAP assessment period, this quickstart will work.
+For the TAP assessment period, this quickstart will work (DB and environment variables are all set up).
 
 1. Install [NodeJS](https://nodejs.org/en/) if not already installed. Any version >10.11.0 should work.
 2. In the root directory, run ```npm install``` to install dependencies
@@ -94,6 +94,7 @@ The clinicQ application is then deployed locally listening on port 3001 by defau
 [nodemon] starting `node app.js`
 clinic Q system listening on 3001
 ```
+You can now access a Form Page at ```http://localhost:3001/form?venueId=STG-180000001W-83338-SEQRSELFTESTSINGLE-SE```
 
 ## Local Development Setup
 The application uses a simple NodeJS backend built on the ExpressJS framework and serves pages rendered with the EJS templating engine.
