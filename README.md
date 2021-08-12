@@ -4,6 +4,7 @@
   * [Architecture](#architecture)
   * [Using ClinicQ](#using-clinicq)
   * [Deployment](#deployment)
+  * [Quickstart](#quickstart)
   * [Local Development Setup](#local-development-setup)
     + [Setup Steps](#setup-steps)
       - [1. Set up simulated clinic server](#1-set-up-simulated-clinic-server)
@@ -79,6 +80,20 @@ This application also requires a database, and a functioning clinic server to wo
 For **demo** purposes, an instance of ClincQ and the simulated clinic server has been publicly deployed on Azure App Service as web applications;
 both projects use Github Actions to perform CD to the App Service. The workflow ```.yml``` files can be found [here](.github/workflows/main_clinicq.yml).
 A database used for this demo has also been set up.
+
+## Quickstart
+For the TAP assessment period, this quickstart will work.
+
+1. Install [NodeJS](https://nodejs.org/en/) if not already installed. Any version >10.11.0 should work.
+2. In the root directory, run ```npm install``` to install dependencies
+3. Install [nodemon](https://www.npmjs.com/package/nodemon) globally: ```npm install -g nodemon```
+4. Start the application in development mode: ```npm run dev```
+
+The clinicQ application is then deployed locally listening on port 3001 by default. On successful startup, you should see this:
+```
+[nodemon] starting `node app.js`
+clinic Q system listening on 3001
+```
 
 ## Local Development Setup
 The application uses a simple NodeJS backend built on the ExpressJS framework and serves pages rendered with the EJS templating engine.
