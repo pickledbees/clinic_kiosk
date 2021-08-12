@@ -55,7 +55,7 @@ This project comes with a [PowerPoint](docs/ClinicQ_Application.pptx) demonstrat
 In real-life deployment, users access the ClinicQ application by scanning a QR code located at the clinic. To access the publicly deployed **demo** instance, you may scan this:
 
 **NOTE**: The demo instance is **not registered** under Singpass and does not have the necessary permissions to use a custom callback URL,
-as such, the pre-fill form feature **will not work**. To use that feature, consider using a local deployment instead. (see [Local Development Setup](#local-development-setup))
+as such, the pre-fill form feature **will not work**. To try that feature, consider using a local deployment instead. (see [Local Development Setup](#local-development-setup))
 
 ![Live QR code](docs/live_qr.png)
 
