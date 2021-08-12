@@ -38,6 +38,8 @@ For more details on onboarding, see the included [PowerPoint](docs/ClinicQ_Appli
 
 This project uses the *MyInfo Person API* and *SafeEntry API* from *Singpass* to enable its form pre-filling and SafeEntry check in / out capabilities.
 
+For development convenience, this repository works with a simulated clinic server over at [this repository](https://github.com/pickledbees/clinic_sim)
+
 ## Architecture
 ClinicQ is designed to act as a patient-facing frontend service for clinic queue management systems.
 The ClinicQ API Server is responsible for serving the relevant UI pages, as well as sending patient data submissions to the appropriate clinic queue management systems servers by calling their exposed web APIs. In turn, ClinicQ has exposed web APIs for clinics to call.
