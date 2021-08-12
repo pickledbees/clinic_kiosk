@@ -82,7 +82,7 @@ both projects use Github Actions to perform CD to the App Service. The workflow 
 A database used for this demo has also been set up.
 
 ## Quickstart
-For the TAP assessment period, this quickstart will work (DB and environment variables are all set up).
+For the TAP assessment period, this quickstart will work for **Windows** (DB and environment variables are all set up).
 
 1. Install [NodeJS](https://nodejs.org/en/) if not already installed. Any version >10.11.0 should work.
 2. In the root directory, run ```npm install``` to install dependencies
