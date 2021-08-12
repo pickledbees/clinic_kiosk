@@ -28,7 +28,7 @@
 ![ClinicQ storyboard](docs/progression.png)
 
 *ClinicQ* is designed to act as a patient-facing frontend service for the queue management systems of clinics.
-After onboarding with the ClinicQ system, the clinic's patients would be able to enjoy:
+After clinics onboard with the ClinicQ system, their patients would be able to enjoy:
 
 1. Pre-filling of the clinic registration form using *Singpass*
 2. Automated checking in for SafeEntry
