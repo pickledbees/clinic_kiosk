@@ -122,6 +122,8 @@ Refer to [Environment Variables](#environment-variables) for details.
 - Install [nodemon](https://www.npmjs.com/package/nodemon) globally: ```npm install -g nodemon```
 - Start the application in development mode: ```npm run dev```
 
+**NOTE:** ```npm run dev``` runs a ```.bat``` file to set environment variables and run the app using ```nodemon```.
+
 The clinicQ application is then deployed locally listening on port 3001 by default. On successful startup, you should see this:
 ```
 [nodemon] starting `node app.js`
