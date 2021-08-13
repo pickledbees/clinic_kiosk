@@ -85,7 +85,7 @@ A database used for this demo has also been set up.
 For the TAP assessment period, this quickstart will work for **Windows** (DB and environment variables are all set up).
 
 ### 1. Set up simulated clinic server
-ClinicQ requires a clinic server to operate, find the quickstart for a local deployment [here](https://github.com/pickledbees/clinic_sim#quickstart).
+ClinicQ requires a clinic server to operate, find the quickstart to locally deploy a simulated one [here](https://github.com/pickledbees/clinic_sim#quickstart).
 
 ### 2. Set up ClinicQ
 - Install [NodeJS](https://nodejs.org/en/) if not already installed. Any version >10.11.0 should work.
